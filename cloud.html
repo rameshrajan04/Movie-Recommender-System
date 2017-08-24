@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <title>Cloud Project Report</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+</head>
+<body>
+<div class="Container">
+    <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8">
+            <h1 style="text-align: center; font-style: normal;"><strong>CloudMiners</strong></h1>
+			<h2 style="text-align: center; font-style: normal;"><strong>Movie Recommendation System using Pyspark</strong></h2>
+        </div>
+        <div class="col-sm-2"></div>
+    </div><br><br>
+    <div class="container">
+        <h4><span style="text-decoration: underline;"><strong>Overview</strong></span></h4>
+        <p>The project focuses on implementing a movie recommender system using collaborative based and content based techniques. The various methods used are Nearest Neighbors, ALS with Matrix Factorization and Cosine Similarity</p>
+        <h4><span style="text-decoration: underline;"><strong>Dataset Description</strong></span></h4>
+        <p>The movielens dataset was taken for the project. The dataset contains 20000263 ratings and 465564 tag applications across 27278 movies. These data were created by 138493 users between January 09, 1995 and March 31, 2015. This dataset was generated on October 17, 2016.</p>
+        <p>Overview of the different methodologies in recommender systems:</p>
+		
+		<h4><span style="text-decoration: underline;"><strong>Collaborative based movie recommendation system</strong></span></h4>
+        <p>Collaborative filtering (CF) is a popular algorithm in making recommendations which is based on the ratings of the other users. The underlying assumption is that the other users&apos; opinion can be selected and collated in such a way to provide a prediction to the active user&apos;s taste. Rather than focusing on the active user&apos;s preferences, the algorithm looks for similarities between the ratings of the movies. If two movies tend to have likes and dislikes from a couple of users, then based upon the assumption the users also tend to have similar preferences. The collaborative based technique incorporates matrix factorization in dealing with the user-ratings matrix and identifying the unobserved underlying features from the data. Based upon the information obtained, the predictions are provided to already existing user profiles.</p>
+        <p>&nbsp;</p>
+		<p>In this section, we study a member of a broad class of algorithms called latent-factor models. They try to explain observed interactions between large numbers of users and products through a relatively small number of unobserved, underlying reasons. It is analogous  to explaining why millions of people buy a particular few of thousands of possible albums by describing users and albums in terms of tastes for perhaps tens of genres, tastes which are not directly observable or given as data.</p>
+		<p>&nbsp;</p>
+		<p>First, we would be considering the problem at hand as matrix completion problem. Using the matrix we would fill the ratings which the user having provided or given. We are given with the implicit ratings that users has provided for certain movies which he has watched and our goal is to predict the ratings for the movies which the users haven’t provided ratings using the already populated movie ratings provided by the user. Considering there are n users and m movies, we are given with an (n×m) R matrix in which each entry (i,k) in the matrix represent the ratings provided by the user k for the movie. Matrix R is a sparse matrix and contains large number of missing values or unobserved ratings, and our task over here is to predict these missing ratings for the users. A popular approach to the matrix completion problem is matrix factorization, where we want to "summarize" users and items with their latent factors.</p>
+		<p>&nbsp;</p>
+		<p>The two Collaborative based movie recommendation algorithms which have been implemented in the project are:</p>
+		<p>1. ALS</p>
+		<p>2. Nearest neighbours </p>
+		<h5><span style="text-decoration: underline;"><strong>Matrix Factorization ALS Algorithm</strong></span></h5>
+		<p>
+</p>
+        <p>In general, for k latent features, and users u with a k- dimensional vector <span><img src="images/xu.jpg " alt="" width="30" height="20"></span> and each movie m would be having similarly k dimensional vector <span><img src="images/yi.jpg " alt="" width="30" height="20"></span>. Now for predicting the users u’s rating for a given movie m, we would use the user feature vector and movie feature matrix to calculate the ratings <span><img src="images/xty.jpg " alt="" width="80" height="20"></span>. Explaining the above logic in more elaborative manner in matrix format.
+		Let <span><img src="images/x1ton.jpg " alt="" width="80" height="20"></span> with k factors for the users, and  <span><img src="images/y1tom.jpg " alt="" width="80" height="20"></span>with k factors for the movies.
+		The kxn user matrix X and the kxm movie matrix Y are then defined by: 
+</p>
+<p><span><img src="images/xandy.jpg " alt="" width="200" height="200"></span></p>
+        <p>Our aim through the ALS algorithm is to estimate the comprehensive ratings <span><img src="images/r.jpg " alt="" width="80" height="20"></span>. We can consider this to be an optimization problem aiming to minimize an objective function and find the optimal solution matrix for X and Y. In general, we try to minimize the least square error for the regularized ratings. </p>
+		<p><span><img src="images/minxy.jpg " alt="" width="50%" height="150"></span></p>
+		<p>Gradient descent would be an approximate approach to optimize such functions, however gradient is slow and would cost hundreds of iterations. Note however, that if we fix the set of variables X and treating them as constants, then the objective is a convex function of Y and vice versa. So, our approach will be to fix Y and optimize X and then fix X and optimize Y ,and repeat until convergence. This approach is known as ALS(Alternating Least Squares). As an objective function, the alternating least squares algorithm can be expressed with this simple pseudo-code:
+
+</p>
+<p><span><img src="images/code.jpg " alt="" width="50%" height="50%"></span></p>
+
+<p>For a single machine,The computational cost for the implementation of the ALS would be: we can analyze the computational cost of this algorithm. 
+        <p>&nbsp;</p>
+Updating each <span><img src="images/xu.jpg " alt="" width="30" height="20"></span> will cost <span><img src="images/onu.jpg " alt="" width="100" height="20"></span>  where nu is the number of items rated by user u
+        <p>&nbsp;</p>
+Updating each <span><img src="images/yi.jpg " alt="" width="30" height="20"></span> will cost <span><img src="images/oni.jpg " alt="" width="100" height="20"></span> where ni is the number of users that have rated movie i.
+        <p>&nbsp;</p>
+
+Once we have computed the matrices X and Y,we can compute the predictions by <span><img src="images/r.jpg " alt="" width="80" height="20"></span>
+for each user u and movie I. Computationally costing O(nmk) for estimating every user movie pairs. However, this approach would be expensive when applying the algorithm on real time datasets. 
+
+A more general approach to predict the observed rating would be to use the <span><img src="images/xu.jpg " alt="" width="30" height="20"></span> and <span><img src="images/yi.jpg " alt="" width="30" height="20"></span> matrices as features in another learning algorithm, incorporating these features with others that are relevant to the prediction task.
+</p>
+ <p>&nbsp;</p>
+<h5><span style="text-decoration: underline;"><strong>Parallel Altenating Least Squares</strong></span></h5>
+<p>&nbsp;</p>
+		<p>There are several ways to distribute the computation of the ALS algorithm depending on how data is partitioned.</p>
+		<p>1. Using joins</p>
+		<p>2. Using broadcase variables</p>
+		<p>&nbsp;</p>
+		<p>In this project we have used broadcast variables which takes advantage of the fact that the X and Y factor matrices are often very small and can be stored locally on each machine.</p>
+		<p>1. First we partition the Ratings RDD by user creating RDD1 and then partitioning the Ratings matrix by movie to create RDD2.We are creating the two copies of the same Ratings RDD with different partitioning. In RDD1, all ratings by the same user are on the same machine, and in RDD2 all ratings for same item are on the same machine.</p>
+		<p>2. Broadcast the matrices X and Y. These matrices would not be normal RDD of the vectors but are local matrices. </p>
+		<p>3. Using RDD1 and Y, we can use expression <span><img src="images/xu.jpg " alt="" width="30" height="20"></span> from above to compute the update of <span><img src="images/xu.jpg " alt="" width="30" height="20"></span> locally on each machine</p>
+		<p>4. Using RDD2 and X, we can use expression <span><img src="images/yi.jpg " alt="" width="30" height="20"></span> from above to compute the update of <span><img src="images/yi.jpg " alt="" width="30" height="20"></span> locally on each machine</p>
+		<p>A further optimization to this method is to group the X and Y factors matrices into blocks (user blocks and item blocks) and reduce the communication by only sending to each machine the block of users (or items) that are needed to compute the updates at that machine.</p>
+
+<h5><span style="text-decoration: underline;"><strong>Code for ALS</strong></span></h5>	
+<p><strong>URL:</strong> <a href="https://github.com/sainikhilg/Content-and-Collaborative-filtering-Movie-Recommender-System"> https://github.com/sainikhilg/Content-and-Collaborative-filtering-Movie-Recommender-System</a></p>
+
+<h5><span style="text-decoration: underline;"><strong>Output for ALS</strong></span></h5>
+<h5><span><strong>User 20</strong></span></h5>
+<p><span><img src="images/als20.jpg " alt="" width="50%" height="250"></span></p>
+<h5><span><strong>User 404</strong></span></h5>
+<p><span><img src="images/als404.jpg " alt="" width="50%" height="250"></span></p>
+<h5><span><strong>User 671</strong></span></h5>
+<p><span><img src="images/als671.jpg " alt="" width="50%" height="250"></span></p>
+<p>RMSE in the ranges of 0.67</p>
+<p>Error Implementing on a very large dataset 20 million users:</p>
+<p><span><img src="images/error.jpg " alt="" width="50%" height="250"></span></p>
+
+
+<h5><span style="text-decoration: underline;"><strong>Nearest Neighbors</strong></span></h5>
+<p>&nbsp;</p>
+		<p>K Nearest Neighbour is one of the common and prevalent classification algorithm.  Several works have been documented in using kNN to implement recommendation systems. Implementation of both the methods mentioned using kNN. Identifying the differences amongst them by interpreting the results and recommending the best algorithm. The accuracies and the latencies for the methods will be compared in the process. </p>
+		
+		<p>In Nearest neighbours the ratings provided by the individual users are taken into consideration to find users with highest cosine similarity. A users recommended movies would be predicted based on the preferences of the users with highest cosine similarity.</p>
+		<p>1. For each movie, find all user-user pairs combos(users who have seen same movie)</p>
+		<p>2. For each user-user pair, measure the similarity measure </p>
+		<p>3. Calculate the top-N movies recommendations for each user using the weighted sums method</p>
+		
+<h5><span style="text-decoration: underline;"><strong>Code for NN Recommendations</strong></span></h5>	
+<p><strong>URL:</strong> <a href="https://github.com/sainikhilg/Content-and-Collaborative-filtering-Movie-Recommender-System"> https://github.com/sainikhilg/Content-and-Collaborative-filtering-Movie-Recommender-System</a></p>
+
+<h5><span style="text-decoration: underline;"><strong>Output for NN Recommendations</strong></span></h5>	
+
+<h5><span><strong>Recommendation for Users 11-20</strong></span></h5>	
+<p><span><img src="images/11-20.jpg " alt="" width="50%" height="250"></span></p>
+<h5><span"><strong>Recommendations for Users 118-132:</strong></span></h5>	
+<p><span><img src="images/118-132.jpg " alt="" width="50%" height="250"></span></p>
+<h5><span><strong>Recommendation for Users 278-293:</strong></span></h5>	
+<p><span><img src="images/278-293.jpg " alt="" width="50%" height="250"></span></p>
+<h5><span style="text-decoration: underline;"><strong>Content-Based Recommendation System</strong></span></h5>	
+
+		<p>Content-based recommender system only uses the user data for making recommendations without taking consideration other external factors. The user profile is built by utilising the data provided by the user such as ratings for the movies watched/seen. We can use the genre of the most movies watched by the user or the movies which user gave maximum rating to make the recommendations. As the user puts more data into his user profile, the accuracy of the recommender system can be improved.</p>
+<p>In this project for a given user we find the top rated movies for the user and based on the genre of these top rated movies we would be recommending the highest rated movies in the same genre as the top rated movies of user would be provided as recommendations. </p>
+
+<h5><span style="text-decoration: underline;"><strong>Code for Content Based</strong></span></h5>	
+<p><strong>URL:</strong> <a href="https://github.com/sainikhilg/Content-and-Collaborative-filtering-Movie-Recommender-System"> https://github.com/sainikhilg/Content-and-Collaborative-filtering-Movie-Recommender-System</a></p>
+
+<h5><span style="text-decoration: underline;"><strong>Output for Content Based</strong></span></h5>
+<h5><span><strong>User 20</strong></span></h5>
+<p><span><img src="images/cb20.jpg " alt="" width="50%" height="250"></span></p>
+<h5><span><strong>User 404</strong></span></h5>
+<p><span><img src="images/cb404.jpg " alt="" width="50%" height="250"></span></p>
+<h5><span><strong>User 671</strong></span></h5>
+<p><span><img src="images/cb671.jpg " alt="" width="50%" height="250"></span></p>
+		
+</div>
+
+
+
+</div></body></html>
